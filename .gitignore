@@ -2,6 +2,3 @@
 /.flatpak
 /.flatpak-builder
 /.vscode
-src/
-pgk/
-*.tar*
