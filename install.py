@@ -42,4 +42,6 @@ if __name__ == "__main__":
         print(f"failed with return code {return_code}.")
     print("-"*20 +"\nUSER INTERVENTION REQUIRED\n" + "-"*20)
     input("To install the package, run 'makepkg -i' in this folder.\nOnce completed, press enter here: ")
+    shutil.rmtree("./src")
     print("DONE!")
+    
