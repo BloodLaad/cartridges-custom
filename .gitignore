@@ -3,5 +3,5 @@
 /.flatpak-builder
 /.vscode
 src/
-pgk/
+pkg/
 *.tar*
