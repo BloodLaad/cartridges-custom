@@ -1,2 +1,7 @@
-pkg/
+/subprojects/blueprint-compiler
+/.flatpak
+/.flatpak-builder
+/.vscode
+src/
+pgk/
 *.tar*

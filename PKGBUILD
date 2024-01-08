@@ -1,7 +1,7 @@
 pkgname=cartridges-custom
 pkgver=2.7.2.custom1
 pkgrel=1
-pkgdesc="A GTK4 + Libadwaita game launcher with custom scrapers"
+pkgdesc="A GTK4 + Libadwaita game launcher + custom importers"
 arch=(any)
 url="https://github.com/BloodLaad/cartridges-custom"
 license=(GPL3)
