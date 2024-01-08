@@ -27,13 +27,18 @@ from cartridges import shared
 from cartridges.game import Game
 from cartridges.importer.location import Location, LocationSubPath
 from cartridges.importer.source import SourceIterable, URLExecutableSource
-
+from cartridges.importer.bottles_extender import GetCustomGames
 
 class BottlesSourceIterable(SourceIterable):
     source: "BottlesSource"
 
     def __iter__(self):
         """Generator method producing games"""
+
+        #Custom
+        c_games = GetCustomGames(self.source.source_id, shared.import_time)
+        for data in c_games:
+            yield data
 
         data = self.source.locations.data["library.yml"].read_text("utf-8")
         library: dict = yaml.safe_load(data)
@@ -74,6 +79,7 @@ class BottlesSourceIterable(SourceIterable):
 
             yield (game, additional_data)
 
+        
 
 class BottlesLocations(NamedTuple):
     data: Location
