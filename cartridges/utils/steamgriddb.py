@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+from datetime import datetime
 import logging
 from pathlib import Path
 from typing import Any
@@ -68,13 +68,41 @@ class SgdbHelper:
         res = requests.get(uri, headers=self.auth_headers, timeout=5)
         match res.status_code:
             case 200:
-                return res.json()["data"][0]["id"]
+                for item in res.json()["data"]:
+                    item_id = item["id"]
+                    item_name = item["name"]
+                    item_release = item["release_date"]
+                    if item_name.strip().lower() == game.name.strip().lower():
+                        return item_id
+                    elif datetime.utcfromtimestamp(item_release).year == datetime.utcfromtimestamp(item_release).year and levenshteinRecursive(item_name.lower().strip(), game.name.lower().strip(), len(item_name.lower().strip()), len(game.name.lower().strip())) <= len(game.name) * 0.3:
+                        return item_id 
+
+                raise SgdbGameNotFound("No match")
             case 401:
                 raise SgdbAuthError(res.json()["errors"][0])
             case 404:
                 raise SgdbGameNotFound(res.status_code)
             case _:
                 res.raise_for_status()
+
+    def levenshteinRecursive(self, str1, str2, m, n):
+        # str1 is empty
+        if m == 0:
+            return n
+        # str2 is empty
+        if n == 0:
+            return m
+        if str1[m - 1] == str2[n - 1]:
+            return self.levenshteinRecursive(str1, str2, m - 1, n - 1)
+        return 1 + min(
+            # Insert     
+            self.levenshteinRecursive(str1, str2, m, n - 1),
+            min(
+                # Remove
+                self.levenshteinRecursive(str1, str2, m - 1, n),
+            # Replace
+                self.levenshteinRecursive(str1, str2, m - 1, n - 1))
+        )
 
     def get_image_uri(self, game_id: str, animated: bool = False) -> Any:
         """Get the image for a SGDB game id"""
