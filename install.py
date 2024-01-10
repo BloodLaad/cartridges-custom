@@ -34,7 +34,7 @@ if __name__ == "__main__":
     # Set the source and destination folders
     copy_all_files_and_directories(".", "./src")
     # Makepkg
-    process = subprocess.Popen('makepkg', shell=True)
+    process = subprocess.Popen('makepkg -f', shell=True)
     return_code = process.wait()
     if return_code == 0:
         print("completed successfully.")
