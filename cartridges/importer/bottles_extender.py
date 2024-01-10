@@ -33,13 +33,16 @@ def GetCustomGames(source_id, import_time):
                 if "year" in data.keys():
                     year = int(datetime(data["year"], 1, 1).timestamp())
 
+                # Executable
+                play_cmd = f'cd "{game_dir.path}" && python3 play.py'
+
                 # Build game
                 values = {
                     "source": source_id,
                     "added": year,
                     "name": title,
                     "game_id": gid,
-                    "executable": "lutris" # FIXME
+                    "executable": play_cmd
                 }
                 if dev != None:
                     values["developer"] = dev
