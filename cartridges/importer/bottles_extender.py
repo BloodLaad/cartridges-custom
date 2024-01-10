@@ -34,7 +34,7 @@ def GetCustomGames(source_id, import_time):
                     year = int(datetime(data["year"], 1, 1).timestamp())
 
                 # Executable
-                play_cmd = f'cd "{game_dir.path}" && python3 play.py'
+                play_cmd = f'cd "{game_dir.path}" && python3 -c "import subprocess;subprocess.run(\\\"konsole -e python3 play.py\\\", shell=True)"'
 
                 # Build game
                 values = {
