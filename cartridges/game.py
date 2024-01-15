@@ -57,6 +57,7 @@ class Game(Gtk.Box):
     name: str
     developer: Optional[str] = None
     removed: bool = False
+    overwrite: bool = False
     blacklisted: bool = False
     game_cover: GameCover = None
     version: int = 0

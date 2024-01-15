@@ -129,13 +129,18 @@ class Store:
             # New game, do as normal
             logging.debug("New store game %s (%s)", game.name, game.game_id)
             self.new_game_ids.add(game.game_id)
-        elif stored_game.removed:
+        elif stored_game.removed or game.overwrite:
             # Will replace a removed game, cleanup its remains
+            if game.overwrite and game.name == stored_game.name and game.developer == stored_game.developer:
+                logging.debug("Duplicate (custom, ignoring overwrite) store game %s (%s)", game.name, game.game_id)
+                self.duplicate_game_ids.add(game.game_id)
+                return None
             logging.debug(
                 "New store game %s (%s) (replacing a removed one)",
                 game.name,
                 game.game_id,
             )
+            stored_game.removed = True
             self.cleanup_game(stored_game)
             self.new_game_ids.add(game.game_id)
         else:

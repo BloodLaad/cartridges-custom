@@ -55,6 +55,10 @@ def GetCustomGames(source_id, import_time):
                         break
                 if cover_path != None:
                     additional_data = {"local_image_path": Path(cover_path)}
+
+                # Set overwrite Flag
+                game.overwrite = True
+                # Add game
                 games.append((game, additional_data))
 
     return games
