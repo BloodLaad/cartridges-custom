@@ -74,7 +74,7 @@ class SgdbHelper:
                     item_release = item["release_date"]
                     if item_name.strip().lower() == game.name.strip().lower():
                         return item_id
-                    elif datetime.utcfromtimestamp(item_release).year == datetime.utcfromtimestamp(item_release).year and self.levenshteinRecursive(item_name.lower().strip(), game.name.lower().strip(), len(item_name.lower().strip()), len(game.name.lower().strip())) <= len(game.name) * 0.3:
+                    elif datetime.utcfromtimestamp(item_release).year == datetime.utcfromtimestamp(item_release).year and len(game.name.lower().strip()) >= len(game.name) * 0.7 and len(game.name.lower().strip()) <= len(game.name) * 1.3:
                         return item_id 
 
                 raise SgdbGameNotFound("No match")
@@ -84,25 +84,6 @@ class SgdbHelper:
                 raise SgdbGameNotFound(res.status_code)
             case _:
                 res.raise_for_status()
-
-    def levenshteinRecursive(self, str1, str2, m, n):
-        # str1 is empty
-        if m == 0:
-            return n
-        # str2 is empty
-        if n == 0:
-            return m
-        if str1[m - 1] == str2[n - 1]:
-            return self.levenshteinRecursive(str1, str2, m - 1, n - 1)
-        return 1 + min(
-            # Insert     
-            self.levenshteinRecursive(str1, str2, m, n - 1),
-            min(
-                # Remove
-                self.levenshteinRecursive(str1, str2, m - 1, n),
-            # Replace
-                self.levenshteinRecursive(str1, str2, m - 1, n - 1))
-        )
 
     def get_image_uri(self, game_id: str, animated: bool = False) -> Any:
         """Get the image for a SGDB game id"""
