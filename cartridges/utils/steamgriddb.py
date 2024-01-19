@@ -74,7 +74,7 @@ class SgdbHelper:
                     item_release = item["release_date"]
                     if item_name.strip().lower() == game.name.strip().lower():
                         return item_id
-                    elif datetime.utcfromtimestamp(item_release).year == datetime.utcfromtimestamp(item_release).year and levenshteinRecursive(item_name.lower().strip(), game.name.lower().strip(), len(item_name.lower().strip()), len(game.name.lower().strip())) <= len(game.name) * 0.3:
+                    elif datetime.utcfromtimestamp(item_release).year == datetime.utcfromtimestamp(item_release).year and self.levenshteinRecursive(item_name.lower().strip(), game.name.lower().strip(), len(item_name.lower().strip()), len(game.name.lower().strip())) <= len(game.name) * 0.3:
                         return item_id 
 
                 raise SgdbGameNotFound("No match")
